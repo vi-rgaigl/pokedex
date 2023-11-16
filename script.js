@@ -15,12 +15,8 @@ function renderPokemonCard() {
     document.getElementById('pokemon_name').innerHTML = capitalizeFirstLetter(currentPokemon['name']);
     document.getElementById('pokemon_image').src = currentPokemon['sprites']['other']['home']['front_default'];
     document.getElementById('pokemon_id').innerHTML = formatId(currentPokemon['id']);
+    document.getElementById('info_content').innerHTML = generatePokemonInfoBodyHTML();
 }
-
-function renderPokemonInfos() {
-    generatePokemonInfoBodyHTML();
-}
-
 
 function openInfoSection(tab, section) {
     let infoDivs = document.getElementsByClassName('info');
