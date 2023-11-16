@@ -1,0 +1,3 @@
+function generatePokemonInfoBodyHTML() {
+    return 
+}

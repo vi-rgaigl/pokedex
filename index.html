@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/w3.css">
+    <script src="script.js"></script>
+    <script src="content/card.js"></script>
+</head>
+
+<body onload="init()">
+    <div class="body">
+        <div id="pokedex">
+            <div class="nav-bar">
+                <button>zurück</button>
+                <button>like</button>
+            </div>
+            <div class="pokedex-text">
+                <h1 id="pokemon_name"></h1>
+                <span id="pokemon_id" class="pokemon-id"></span>
+            </div> 
+        </div>
+        <div class="info-container">
+            <img id="pokemon_image">
+            <div id="info_content">
+
+                <h2>Tabs in a Grid</h2>
+
+                <div class="w3-row">
+                  <a href="javascript:void(0)" onclick="openInfoSection('1', 'about');">
+                    <div id="tab_1" class="w3-quarter tablink w3-bottombar w3-hover-light-grey w3-padding">About</div>
+                  </a>
+                  <a href="javascript:void(0)" onclick="openInfoSection('2', 'states');">
+                    <div id="tab_2" class="w3-quarter tablink w3-bottombar w3-hover-light-grey w3-padding">Base States</div>
+                  </a>
+                  <a href="javascript:void(0)" onclick="openInfoSection('3', 'evolution');">
+                    <div id="tab_3" class="w3-quarter tablink w3-bottombar w3-hover-light-grey w3-padding">Evolution</div>
+                  </a>
+                  <a href="javascript:void(0)" onclick="openInfoSection('4', 'moves');">
+                    <div id="tab_4" class="w3-quarter tablink w3-bottombar w3-hover-light-grey w3-padding">Moves</div>
+                  </a>
+                </div>
+              
+                <div id="about" class="w3-container info" style="display:none">
+                  <h2>About</h2>
+                  <p>xxx</p>
+                </div>
+              
+                <div id="states" class="w3-container info" style="display:none">
+                  <h2>Base States</h2>
+                  <p>yyy</p> 
+                </div>
+              
+                <div id="evolution" class="w3-container info" style="display:none">
+                  <h2>Evolution</h2>
+                  <p>zzz</p>
+                </div>
+                <div id="moves" class="w3-container info" style="display:none">
+                    <h2>Moves</h2>
+                    <p>aaa</p>
+                  </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
