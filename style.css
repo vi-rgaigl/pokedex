@@ -14,6 +14,10 @@ h1 {
     width: 40vw;
 }
 
+.div-margin {
+    margin: 24px;
+}
+
 #pokedex {
     min-height: 50vh;
     background-color: #FB6C6C;
@@ -71,6 +75,12 @@ img {
     border-bottom: 4px solid #FB6C6C!important;
 }
 
+.about-container {
+    height: 200px;
+    background-color: #30A7D7;
+    border-radius: 8px;
+}
+
 @media(max-width: 800px) {
     .div-width {
         width: 70vw;
@@ -81,6 +91,15 @@ img {
     }
     .w3-quarter {
         width: 100% !important;
+    }
+    .div-margin {
+        margin: 16px;
+    }
+}
+
+@media(max-width: 600px) {
+    .div-margin {
+        margin: 16px 4px;
     }
 }
 
@@ -109,12 +128,15 @@ img {
     .w3-padding {
         padding: 4px 12px!important;
     }
+    .div-margin {
+        margin: 16px 0;
+    }
 }
 
 @media(max-width: 320px) {
     img {
         height: 36vh;
-        margin-top: -32vh;
+        margin-top: -33vh;
     }
     .info-container {
         border-top-left-radius: 24px;
