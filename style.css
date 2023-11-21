@@ -15,7 +15,7 @@ h1 {
 }
 
 .div-margin {
-    margin: 24px;
+    margin: 24px 18px;
 }
 
 #pokedex {
@@ -75,10 +75,8 @@ img {
     border-bottom: 4px solid #FB6C6C!important;
 }
 
-.about-container {
-    height: 200px;
-    background-color: #30A7D7;
-    border-radius: 8px;
+.content-container {
+    background-color: #cccdce;
 }
 
 @media(max-width: 800px) {

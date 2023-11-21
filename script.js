@@ -5,7 +5,7 @@ async function init() {
 }
 
 async function loadPokemon() {
-    let url = 'https://pokeapi.co/api/v2/pokemon/bulbasaur';
+    let url = 'https://pokeapi.co/api/v2/pokemon/charmander';
     let resopnse = await fetch(url);
     currentPokemon = await resopnse.json();
     renderPokemonCard();
@@ -24,7 +24,7 @@ function openInfoSection(tab, section) {
     for (let i = 0; i < infoDivs.length; i++) {
         infoDivs[i].style.display = 'none';
     }
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 3; i++) {
         setBorderMarker(i, tab);
     }
     document.getElementById(section).style.display = 'block';
@@ -35,9 +35,7 @@ function generateInfoContent(section) {
     switch(section) {
         case 'about': return generateAboutHTML();
         break;
-        case 'states': return generateStatestHTML();
-        break;
-        case 'evolution': return generateEvolutionHTML();
+        case 'stats': return generateStatstHTML();
         break;
         case 'moves': return generateMovesHTML();
         break;
