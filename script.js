@@ -1,11 +1,45 @@
 let currentPokemon;
+let pokemons;
 
 async function init() {
-    await loadPokemon();
+    // await loadPokemon();
+    await loadPokemonIndex();
 }
 
-async function loadPokemon() {
-    let url = 'https://pokeapi.co/api/v2/pokemon/charmander';
+async function loadPokemonIndex() {
+    let url = 'https://pokeapi.co/api/v2/pokemon?limit=20&offset=0';
+    let resopnse = await fetch(url);
+    json = await resopnse.json();
+    pokemons = json['results'];
+    renderPokemonIndex();
+}
+
+function renderPokemonIndex() {  
+    let container = document.getElementById('pokedex_body');
+    console.log(pokemons);
+    for (let i = 0; i < pokemons.length; i++) {
+        const pokemon = pokemons[i];
+        container.innerHTML += generatePokemonItemHTML(pokemon);
+    }
+}
+
+function generatePokemonItemHTML(pokemon) {
+    return `
+    <div id="pokemon_item" class="pokemon-item"> 
+        <div class="pokemon-image">
+           
+        </div>
+        <div class="pokemon-info">
+            <div class="pokemon-name">${capitalizeFirstLetter(pokemon['name'])}</div>
+        </div>
+    </div>
+    </div>
+    `;
+}
+//onclick="loadPokemon('${pokemon['url']}')
+
+async function loadPokemon(url) {
+    // let url = 'https://pokeapi.co/api/v2/pokemon/charmander';
     let resopnse = await fetch(url);
     currentPokemon = await resopnse.json();
     renderPokemonCard();

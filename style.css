@@ -3,10 +3,11 @@
 body {
     margin: 0;
     font-family: 'Open Sans', sans-serif;
+    height: 100vh;
 }
 
-button {
-    display: none;
+header {
+    height: 80px;
 }
 
 h1 {
@@ -20,6 +21,19 @@ h1 {
 
 .div-margin {
     margin: 24px 18px;
+}
+
+.pokedex-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 80px;
+}
+
+.pokemon-item {
+    height: 200px;
+    width: 200px;
+    background-color: #70c927;
 }
 
 #pokedex {
