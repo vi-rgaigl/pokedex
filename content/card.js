@@ -28,49 +28,52 @@ function generateAboutHTML() {
     return /*html */ `
         <table>
             <tr>
+                <td>Types</td>
+                <td>${getTypes()}</td>
+            </tr>
+            <tr>
                 <td>Height</td>
-                <td>${currentPokemon['height']}</td>
+                <td>${formatHeight(currentPokemon['height']).toFixed(2)} cm</td>
             </tr>
             <tr>
                 <td>Weight</td>
-                <td>${currentPokemon['weight']}</td>
+                <td>${formatWeight(currentPokemon['weight'])} kg</td>
             </tr>
             <tr>
                 <td>Abilities</td>
                 <td>${getAbilities()}</td>
             </tr>
-            <tr>
-                <td>Types</td>
-                <td>${getTypes()}</td>
-            </tr>
         </table>
     `;
 }
 
+function formatHeight(height) {
+    return height / 10;
+}
+
+function formatWeight(weight) {
+    return weight / 10;
+}
+
 function getAbilities() {
     let abilities = currentPokemon['abilities'];
-    let result = '';
+    let result = '<div class="ability-container">';
     for (let i = 0; i < abilities.length; i++) {
         const ability = abilities[i];
-        result += capitalizeFirstLetter(ability['ability']['name']);
-        if(i < abilities.length-1) {
-            result += ', ';
-        }
+        result += '<div class="ability">' + capitalizeFirstLetter(ability['ability']['name']) + '</div>';
     }
-    return result;
+    return result + '</div>';
 }
 
 function getTypes() {
     let types = currentPokemon['types'];
-    let result = '<div>';
+    let result = '<div class="ability-container">';
     for (let i = 0; i < types.length; i++) {
-        const type= types[i];
-        result += capitalizeFirstLetter(type['type']['name']) + '</div>';
+        const type = types[i];
+        result += '<div class="type">' + capitalizeFirstLetter(type['type']['name']) + '</div>';
     }
-    return result;
+    return result + '</div>';
 }
-
-
 
 function generateStatstHTML() {
     return /*html */ `
@@ -83,11 +86,27 @@ function generateStatstHTML() {
 function getStats() {
     let stats = currentPokemon['stats'];
     let result = '';
-    for(let i = 0; i < stats.length; i++) {
+    for (let i = 0; i < stats.length; i++) {
         const stat = stats[i];
-        result += '<tr><td>' + stat['stat']['name'] + '</td><td>' + stat['base_stat'] + '</td></tr>';
+        result += '<tr><td>' + capitalizeFirstLetter(stat['stat']['name']) + '</td><td>' + generateStatsBar(stat['base_stat']) + '</td></tr>';
     }
     return result;
+}
+
+function generateStatsBar(number) {
+    return /*html */ `
+        <div class="table-cell">
+            ${number}<div class="statsbar" style="width: ${number}%; background-color: ${setStatsBarColor(number)};"></div>
+        </div>
+    `;
+}
+
+function setStatsBarColor(number) {
+    if (number < 50) {
+        return 'red';
+    } else {
+        return '#70c927';
+    }
 }
 
 function generateMovesHTML() {
@@ -98,13 +117,10 @@ function generateMovesHTML() {
 
 function getMoves() {
     let moves = currentPokemon['moves'];
-    let result = '';
+    let result = '<div class="moves-container">';
     for (let i = 0; i < moves.length; i++) {
         const move = moves[i];
-        result += capitalizeFirstLetter(move['move']['name']);
-        if(i < moves.length-1) {
-            result += ', ';
-        }
+        result += '<div class ="moves">' + capitalizeFirstLetter(move['move']['name'])  + '</div>';
     }
-    return result;
+    return result + '</div>';
 }
