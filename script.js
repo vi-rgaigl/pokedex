@@ -2,48 +2,68 @@ let currentPokemon;
 let pokemons;
 
 async function init() {
-    // await loadPokemon();
-    await loadPokemonIndex();
+    await loadPokedexIndex();
 }
 
-async function loadPokemonIndex() {
+async function loadPokedexIndex() {
     let url = 'https://pokeapi.co/api/v2/pokemon?limit=20&offset=0';
     let resopnse = await fetch(url);
     json = await resopnse.json();
     pokemons = json['results'];
-    renderPokemonIndex();
+    renderPokedexHome();
+    renderPokedexIndexImages();
 }
 
-function renderPokemonIndex() {  
+function renderPokedexHome() {  
     let container = document.getElementById('pokedex_body');
     console.log(pokemons);
     for (let i = 0; i < pokemons.length; i++) {
         const pokemon = pokemons[i];
-        container.innerHTML += generatePokemonItemHTML(pokemon);
+        container.innerHTML += generatePokemonItemHTML(pokemon); 
     }
+}
+
+function renderPokedexIndexImages() {   
+    for (let i = 0; i < pokemons.length; i++) {
+        const pokemon = pokemons[i];
+        const container = document.getElementById(`pokedex_image_${pokemon['name']}`);
+        container.innerHTML = loadPokedexImage(container, pokemon['name']);
+    }
+}
+
+async function loadPokedexImage(container, pokemonName) {
+    let pokemon = await getPokedexImage(pokemonName);
+    container.innerHTML = `<img src="${pokemon['sprites']['other']['home']['front_default']}">`;
 }
 
 function generatePokemonItemHTML(pokemon) {
     return `
-    <div id="pokemon_item" class="pokemon-item"> 
-        <div class="pokemon-image">
-           
+    <div id="pokedex_item" class="pokedex-item" onclick="loadPokemon()"> 
+        <div id="pokedex_image_${pokemon['name']}" class="pokedex-image">
         </div>
-        <div class="pokemon-info">
-            <div class="pokemon-name">${capitalizeFirstLetter(pokemon['name'])}</div>
+        <div class="pokedex-info">
+            <div class="pokedex-name">${capitalizeFirstLetter(pokemon['name'])}</div>
         </div>
     </div>
     </div>
     `;
 }
-//onclick="loadPokemon('${pokemon['url']}')
 
-async function loadPokemon(url) {
-    // let url = 'https://pokeapi.co/api/v2/pokemon/charmander';
-    let resopnse = await fetch(url);
-    currentPokemon = await resopnse.json();
-    renderPokemonCard();
+async function getPokedexImage(pokemonName) {
+    let url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
+    let response = await fetch(url);
+    let pokemon = response.json();
+    return pokemon;
 }
+
+
+
+// async function loadPokemon(url) {
+//     let url = 'https://pokeapi.co/api/v2/pokemon/charmander';
+//     let resopnse = await fetch(url);
+//     let pokemon = await resopnse.json();
+//     return pokemon;
+// }
 
 function renderPokemonCard() {
     document.getElementById('pokemon_name').innerHTML = capitalizeFirstLetter(currentPokemon['name']);
