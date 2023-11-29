@@ -6,18 +6,20 @@ async function init() {
     await loadPokedexIndex();
 }
 
+
+
 async function loadPokedexIndex() {
     let url = 'https://pokeapi.co/api/v2/pokemon?limit=20&offset=0';
     let resopnse = await fetch(url);
     json = await resopnse.json();
     pokemons = json['results'];
+    document.getElementById('body').innerHTML = generatePokedexIndexHTML();
     renderPokedexHome();
     renderPokedexIndexImages();
 }
 
 function renderPokedexHome() {  
     let container = document.getElementById('pokedex_body');
-    console.log(pokemons);
     for (let i = 0; i < pokemons.length; i++) {
         const pokemon = pokemons[i];
         container.innerHTML += generatePokemonItemHTML(pokemon); 
@@ -44,9 +46,15 @@ async function getPokedexImage(pokemonName) {
     return pokemon;
 }
 
+function generatePokedexIndexHTML() {
+    return /*html*/ `
+        <header></header>
+        <div id="pokedex_body" class="pokedex-body"></div>
+    `;
+}
 
 function generatePokemonItemHTML(pokemon) {
-    return `
+    return /*html */ `
     <div id="pokedex_item" class="pokedex-item" onclick="loadPokemon('${pokemon['name']}')"> 
         <div id="pokedex_image_${pokemon['name']}" class="pokedex-image">
         </div>
@@ -60,7 +68,6 @@ function generatePokemonItemHTML(pokemon) {
 
 
 // Pokemon Cards
-
 async function loadPokemon(pokemonName) {
     let url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
     let resopnse = await fetch(url);
@@ -68,26 +75,6 @@ async function loadPokemon(pokemonName) {
     document.getElementById('body').innerHTML = generatePokemonBodyHTML();
     renderPokemonCard();
 }
-
-function generatePokemonBodyHTML() {
-    return /*html */ `
-        <div id="pokedex">
-            <div class="nav-bar">
-                <button>zurück</button>
-                <button>like</button>
-            </div>
-            <div class="pokedex-text div-width">
-                <h1 id="pokemon_name"></h1>
-                <span id="pokemon_id" class="pokemon-id"></span>
-            </div> 
-        </div>
-        <div class="info-container">
-            <img id="pokemon_image">
-            <div id="info_content" class="info-content div-width"></div>
-        </div>
-    `;
-}
-
 
 function renderPokemonCard() {
     document.getElementById('pokemon_name').innerHTML = capitalizeFirstLetter(currentPokemon['name']);
@@ -128,6 +115,26 @@ function setBorderMarker(i, tab) {
         document.getElementById(`tab_${i}`).classList.add('w3-bottombar');
         document.getElementById(`tab_${i}`).classList.remove('border-marker');
     }
+}
+
+
+function generatePokemonBodyHTML() {
+    return /*html */ `
+        <div id="pokedex">
+            <div class="nav-bar">
+                <button onclick="init()">zurück</button>
+                <button>like</button>
+            </div>
+            <div class="pokedex-text div-width">
+                <h1 id="pokemon_name"></h1>
+                <span id="pokemon_id" class="pokemon-id"></span>
+            </div> 
+        </div>
+        <div class="info-container">
+            <img id="pokemon_image">
+            <div id="info_content" class="info-content div-width"></div>
+        </div>
+    `;
 }
 
 function capitalizeFirstLetter(string) {
