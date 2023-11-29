@@ -1,6 +1,7 @@
 let currentPokemon;
 let pokemons;
 
+// Pokedex Home Page
 async function init() {
     await loadPokedexIndex();
 }
@@ -36,9 +37,17 @@ async function loadPokedexImage(container, pokemonName) {
     container.innerHTML = `<img src="${pokemon['sprites']['other']['home']['front_default']}">`;
 }
 
+async function getPokedexImage(pokemonName) {
+    let url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
+    let response = await fetch(url);
+    let pokemon = response.json();
+    return pokemon;
+}
+
+
 function generatePokemonItemHTML(pokemon) {
     return `
-    <div id="pokedex_item" class="pokedex-item" onclick="loadPokemon()"> 
+    <div id="pokedex_item" class="pokedex-item" onclick="loadPokemon('${pokemon['name']}')"> 
         <div id="pokedex_image_${pokemon['name']}" class="pokedex-image">
         </div>
         <div class="pokedex-info">
@@ -49,21 +58,36 @@ function generatePokemonItemHTML(pokemon) {
     `;
 }
 
-async function getPokedexImage(pokemonName) {
+
+// Pokemon Cards
+
+async function loadPokemon(pokemonName) {
     let url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
-    let response = await fetch(url);
-    let pokemon = response.json();
-    return pokemon;
+    let resopnse = await fetch(url);
+    currentPokemon = await resopnse.json();
+    document.getElementById('body').innerHTML = generatePokemonBodyHTML();
+    renderPokemonCard();
 }
 
+function generatePokemonBodyHTML() {
+    return /*html */ `
+        <div id="pokedex">
+            <div class="nav-bar">
+                <button>zurück</button>
+                <button>like</button>
+            </div>
+            <div class="pokedex-text div-width">
+                <h1 id="pokemon_name"></h1>
+                <span id="pokemon_id" class="pokemon-id"></span>
+            </div> 
+        </div>
+        <div class="info-container">
+            <img id="pokemon_image">
+            <div id="info_content" class="info-content div-width"></div>
+        </div>
+    `;
+}
 
-
-// async function loadPokemon(url) {
-//     let url = 'https://pokeapi.co/api/v2/pokemon/charmander';
-//     let resopnse = await fetch(url);
-//     let pokemon = await resopnse.json();
-//     return pokemon;
-// }
 
 function renderPokemonCard() {
     document.getElementById('pokemon_name').innerHTML = capitalizeFirstLetter(currentPokemon['name']);
