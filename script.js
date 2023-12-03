@@ -1,34 +1,33 @@
 let currentPokemon;
 let pokemons;
 
-// Pokedex Home Page
+// Pokedex Homepage
 async function init() {
     await loadPokedexIndex();
 }
 
-
-
 async function loadPokedexIndex() {
-    let url = 'https://pokeapi.co/api/v2/pokemon?limit=20&offset=0';
+    let url = 'https://pokeapi.co/api/v2/pokemon?limit=100&offset=0';
     let resopnse = await fetch(url);
     json = await resopnse.json();
     pokemons = json['results'];
     document.getElementById('body').innerHTML = generatePokedexIndexHTML();
-    renderPokedexHome();
-    renderPokedexIndexImages();
+    renderPokedexHome(pokemons);
+    renderPokedexIndexImages(pokemons);
 }
 
-function renderPokedexHome() {  
+function renderPokedexHome(array) {
     let container = document.getElementById('pokedex_body');
-    for (let i = 0; i < pokemons.length; i++) {
-        const pokemon = pokemons[i];
-        container.innerHTML += generatePokemonItemHTML(pokemon); 
+    container.innerHTML = '';
+    for (let i = 0; i < array.length; i++) {
+        const pokemon = array[i];
+        container.innerHTML += generatePokemonItemHTML(pokemon);
     }
 }
 
-function renderPokedexIndexImages() {   
-    for (let i = 0; i < pokemons.length; i++) {
-        const pokemon = pokemons[i];
+function renderPokedexIndexImages(array) {
+    for (let i = 0; i < array.length; i++) {
+        const pokemon = array[i];
         const container = document.getElementById(`pokedex_image_${pokemon['name']}`);
         container.innerHTML = loadPokedexImage(container, pokemon['name']);
     }
@@ -46,9 +45,28 @@ async function getPokedexImage(pokemonName) {
     return pokemon;
 }
 
+function search() {
+    let search = document.getElementById('search').value;
+    let iArray = [];
+    const result = pokemons.filter((pokemon) => pokemon['name'].toLowerCase().includes(search.toLowerCase()));   
+    if(!result) {} else {
+        for (let i = 0; i < result.length; i++) {
+            iArray[i] = pokemons.indexOf(result[i]);
+        }  
+    }
+    renderPokedexHome(result, iArray);
+    renderPokedexIndexImages(result, iArray);                                 
+} 
+
+
 function generatePokedexIndexHTML() {
     return /*html*/ `
-        <header></header>
+        <header>
+            <div class="header">
+                <img src="./img/pokedex_logo.png" alt="">
+            </div>
+            <div><input onkeyup="search()" type="search" id="search" name="q" placeholder="Suche"></div>   
+        </header>
         <div id="pokedex_body" class="pokedex-body"></div>
     `;
 }
@@ -72,7 +90,9 @@ async function loadPokemon(pokemonName) {
     let url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
     let resopnse = await fetch(url);
     currentPokemon = await resopnse.json();
-    document.getElementById('body').innerHTML = generatePokemonBodyHTML();
+    console.log(await getBackgroundColor());
+    let backgroundColor = await getBackgroundColor();
+    document.getElementById('body').innerHTML = generatePokemonBodyHTML(backgroundColor);
     renderPokemonCard();
 }
 
@@ -84,46 +104,18 @@ function renderPokemonCard() {
     openInfoSection('1', 'about');
 }
 
-function openInfoSection(tab, section) {
-    let infoDivs = document.getElementsByClassName('info');
-    for (let i = 0; i < infoDivs.length; i++) {
-        infoDivs[i].style.display = 'none';
-    }
-    for (let i = 1; i <= 3; i++) {
-        setBorderMarker(i, tab);
-    }
-    document.getElementById(section).style.display = 'block';
-    document.getElementById(`${section}_container`).innerHTML = generateInfoContent(section); 
+async function getBackgroundColor() {
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${currentPokemon['species']['name']}`;
+    let response = await fetch(url);
+    let species = await response.json();
+    return species['color']['name'];
 }
 
-function generateInfoContent(section) {
-    switch(section) {
-        case 'about': return generateAboutHTML();
-        break;
-        case 'stats': return generateStatstHTML();
-        break;
-        case 'moves': return generateMovesHTML();
-        break;
-        default: return generateAboutHTML();
-    }
-}
-
-function setBorderMarker(i, tab) {
-    document.getElementById(`tab_${tab}`).classList.remove('w3-bottombar');
-    document.getElementById(`tab_${tab}`).classList.add('border-marker');
-    if (tab != i) {
-        document.getElementById(`tab_${i}`).classList.add('w3-bottombar');
-        document.getElementById(`tab_${i}`).classList.remove('border-marker');
-    }
-}
-
-
-function generatePokemonBodyHTML() {
+function generatePokemonBodyHTML(backgroundColor) {
     return /*html */ `
-        <div id="pokedex">
+        <div id="pokedex" style="background-color: ${backgroundColor}"> 
             <div class="nav-bar">
-                <button onclick="init()">zurück</button>
-                <button>like</button>
+                <button onclick="init()">back</button>
             </div>
             <div class="pokedex-text div-width">
                 <h1 id="pokemon_name"></h1>
@@ -141,14 +133,6 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function formatId(id) {
-    if (id < 10) {
-        return '#00' + id;
-    } else if (id < 100 && id > 10) {
-        return '#0' + id;
-    } else {
-        return '#' + id;
-    }
-}
+
 
 

@@ -7,12 +7,50 @@ body {
 }
 
 header {
+    height: 120px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 8vw;
+    padding-right: 8vw;
+}
+
+.header img {
     height: 80px;
+    margin-top: 0;
+}
+
+input {
+    all: unset;
+    height: 56px;
+    width: 30vw;
+    border: 1px solid silver;
+    border-radius: 8px;
+    font-family: unset;
+    text-align: center;
+}
+
+input:hover {
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+input:focus {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
     margin: 0;
-    /* padding-top: 32px; */
+    margin-left: 24px;
+}
+
+button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: silver;
+    border: none;
 }
 
 .div-width {
@@ -25,30 +63,34 @@ h1 {
 
 .pokedex-body {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 16px;
-    padding: 80px;
 }
 
 .pokedex-item {
-    height: 200px;
-    width: 200px;
-    background-color: #70c927;
+    height: 250px;
+    width: 250px;
+    /* background-color: #b8e990; */
+    border: 1px solid silver;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 16px;
+    font-size: 24px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
 
 .pokedex-item:hover {
     cursor: pointer;
-    transform: scale(1.05);
+    transform: scale(1.02);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 .pokedex-image {
-    height: 160px;
-    width: 160px;
+    height: 180px;
+    width: 180px;
 }
 
 .pokedex-image img {
@@ -57,13 +99,22 @@ h1 {
     width: 100%;
 }
 
-#pokedex {
-    min-height: 50vh;
-    background-color: #FB6C6C;
-    color: white;
+.body {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#pokedex {
+    min-height: 50vh;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border: 1px solid silver;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .nav-bar {
@@ -73,6 +124,10 @@ h1 {
     justify-content: space-between;
     margin-top: 16px;
     margin-bottom: 16px;
+}
+
+.pokemon-id {
+    margin-right: 24px;
 }
 
 .pokedex-text {
@@ -88,8 +143,12 @@ img {
 
 .info-container {
     background-color: white;
+    border: 1px solid silver;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
     min-height: 50vh;
     margin-top: -40px;
     display: flex;
@@ -111,7 +170,7 @@ img {
 }
 
 .content-container {
-    height: 40vh;
+    height: 36vh;
     overflow-y: scroll;
 }
 
@@ -180,7 +239,13 @@ table tr td:last-child {
 
 @media(max-width: 800px) {
     .div-width {
-        width: 70vw;
+        width: 80vw;
+    }
+    .header img {
+        height: 60px;
+    }
+    input {
+        width: 45vw;
     }
     .w3-row {
         display: flex;
@@ -192,9 +257,30 @@ table tr td:last-child {
     .div-margin {
         margin: 16px;
     }
+    .pokedex-item {
+        height: 200px;
+        width: 200px;
+    }
+    .pokedex-image {
+        height: 140px;
+        width: 140px;
+    }
 }
 
 @media(max-width: 600px) {
+    .body {
+        align-items: unset;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    header {
+        flex-direction: column;
+    }
+    input {
+        width: 70vw;
+        height: 46px;
+        margin-bottom: 8px;
+    }
     .div-margin {
         margin: 16px 4px;
     }
@@ -228,9 +314,19 @@ table tr td:last-child {
     .div-margin {
         margin: 16px 0;
     }
+    .pokedex-item {
+        height: 150px;
+        width: 150px;
+        gap: 8px;
+        font-size: 18px;
+    }
+    .pokedex-image {
+        height: 100px;
+        width: 100px;
+    }
 }
 
-@media(max-width: 320px) {
+@media(max-width: 380px) {
     img {
         height: 36vh;
         margin-top: -33vh;
@@ -241,5 +337,15 @@ table tr td:last-child {
     }
     .w3-padding {
         padding: 2px 6px!important;
+    }
+    .pokedex-item {
+        height: 150px;
+        width: 120px;
+        gap: 8px;
+        font-size: 18px;
+    }
+    .pokedex-image {
+        height: 100px;
+        width: 100px;
     }
 }

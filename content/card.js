@@ -47,6 +47,39 @@ function generateAboutHTML() {
     `;
 }
 
+function openInfoSection(tab, section) {
+    let infoDivs = document.getElementsByClassName('info');
+    for (let i = 0; i < infoDivs.length; i++) {
+        infoDivs[i].style.display = 'none';
+    }
+    for (let i = 1; i <= 3; i++) {
+        setBorderMarker(i, tab);
+    }
+    document.getElementById(section).style.display = 'block';
+    document.getElementById(`${section}_container`).innerHTML = generateInfoContent(section); 
+}
+
+function generateInfoContent(section) {
+    switch(section) {
+        case 'about': return generateAboutHTML();
+        break;
+        case 'stats': return generateStatstHTML();
+        break;
+        case 'moves': return generateMovesHTML();
+        break;
+        default: return generateAboutHTML();
+    }
+}
+
+function setBorderMarker(i, tab) {
+    document.getElementById(`tab_${tab}`).classList.remove('w3-bottombar');
+    document.getElementById(`tab_${tab}`).classList.add('border-marker');
+    if (tab != i) {
+        document.getElementById(`tab_${i}`).classList.add('w3-bottombar');
+        document.getElementById(`tab_${i}`).classList.remove('border-marker');
+    }
+}
+
 function formatHeight(height) {
     return height / 10;
 }
@@ -123,4 +156,14 @@ function getMoves() {
         result += '<div class ="moves">' + capitalizeFirstLetter(move['move']['name'])  + '</div>';
     }
     return result + '</div>';
+}
+
+function formatId(id) {
+    if (id < 10) {
+        return '#00' + id;
+    } else if (id < 100 && id > 10) {
+        return '#0' + id;
+    } else {
+        return '#' + id;
+    }
 }
