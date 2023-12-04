@@ -12,7 +12,7 @@ async function init() {
 }
 
 async function loadAllPokemons() {
-    let url = `https://pokeapi.co/api/v2/pokemon?limit=1010&offset=0`;
+    let url = `https://pokeapi.co/api/v2/pokemon?limit=800&offset=0`;
     let resopnse = await fetch(url);
     json = await resopnse.json();
     pokemons = json['results'];
@@ -123,12 +123,12 @@ function generatePokemonItemHTML(pokemon) {
 
 
 // Pokemon Cards
-async function loadPokemon(pokemonName) {
-    let url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
+async function loadPokemon(pokemonVariable) {
+    let url = `https://pokeapi.co/api/v2/pokemon/${pokemonVariable}`;
     let resopnse = await fetch(url);
     currentPokemon = await resopnse.json();
     let backgroundColor = await getBackgroundColor();
-    document.getElementById('body').innerHTML = generatePokemonBodyHTML(backgroundColor);
+    document.getElementById('body').innerHTML = generatePokemonBodyHTML(backgroundColor, currentPokemon['id']);
     renderPokemonCard();
 }
 
@@ -140,6 +140,30 @@ function renderPokemonCard() {
     openInfoSection('1', 'about');
 }
 
+function nextPokemon() {
+    let currentId = currentPokemon['id'];
+    console.log(currentId);
+    if (currentId >= pokemons.length) {
+        toggleDiv('next_pokemon');
+    } else {
+        loadPokemon(currentId + 1);
+    }  
+}
+
+function previousPokemon() {
+    let currentId = currentPokemon['id'];
+    console.log(currentId);
+    if(currentId <= 1) {
+        toggleDiv('previous_pokemon');
+    } else {
+        loadPokemon(currentId - 1);
+    }
+}
+
+function toggleDiv(id) {
+    document.getElementById(id).classList.toggle('d-none');
+}
+
 async function getBackgroundColor() {
     let url = `https://pokeapi.co/api/v2/pokemon-species/${currentPokemon['species']['name']}`;
     let response = await fetch(url);
@@ -147,9 +171,9 @@ async function getBackgroundColor() {
     return species['color']['name'];
 }
 
-function generatePokemonBodyHTML(backgroundColor) {
+function generatePokemonBodyHTML(backgroundColor, id) {
     return /*html */ `
-        <div id="pokedex" style="background-color: ${backgroundColor}"> 
+        <div id="${id}" class="pokedex" style="background-color: ${backgroundColor}"> 
             <div class="nav-bar">
                 <button onclick="loadPokedexIndex(offset, limit)">Home</button>
             </div>
@@ -161,14 +185,15 @@ function generatePokemonBodyHTML(backgroundColor) {
         <div class="info-container">
             <img id="pokemon_image">
             <div id="info_content" class="info-content div-width"></div>
+            <div class="change-line">
+                <div onclick="previousPokemon()" id="previous_pokemon" class="change-card">vorheriger<br> Pokemon</div>
+                <div onclick="nextPokemon()" id="next_pokemon"  class="change-card">nächster<br> Pokemon</div>
+            </div>
         </div>
+        
     `;
 }
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-
-
-

@@ -60,12 +60,13 @@ h1 {
 }
 
 button {
-    width: 60px;
+    width: 50px;
     height: 50px;
     border-radius: 50%;
     cursor: pointer;
     background-color: silver;
     border: none;
+    font-size: 12px;
 }
 
 .div-width {
@@ -74,6 +75,10 @@ button {
 
 .div-margin {
     margin: 24px 18px;
+}
+
+.d-none {
+    display: none;
 }
 
 .pokedex-body {
@@ -87,7 +92,6 @@ button {
 .pokedex-item {
     height: 250px;
     width: 250px;
-    /* background-color: #b8e990; */
     border: 1px solid silver;
     border-radius: 8px;
     display: flex;
@@ -121,7 +125,7 @@ button {
     align-items: center;
 }
 
-#pokedex {
+.pokedex {
     min-height: 50vh;
     margin-top: 24px;
     display: flex;
@@ -186,7 +190,7 @@ img {
 }
 
 .content-container {
-    height: 36vh;
+    height: 28vh;
     overflow-y: scroll;
 }
 
@@ -199,7 +203,7 @@ table {
 }
 
 tr {
-    height: 30px;
+    height: 26px;
 }
 
 .table-cell {
@@ -251,6 +255,29 @@ table tr td:last-child {
     padding: 6px;
     border-radius: 6px;
     background-color: rgb(203, 156, 247);
+}
+
+.change-line {
+    width: 87%;
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+}
+
+.change-card {
+    font-size: 14px;
+    padding: 6px;
+    margin-bottom: 6px;
+    border: 1px solid silver;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.change-card:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 @media(max-width: 800px) {
