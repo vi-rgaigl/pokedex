@@ -1,19 +1,31 @@
 let currentPokemon;
+let currentPokedex;
 let pokemons;
+let limit = 20;
+let offset;
 
 // Pokedex Homepage
 async function init() {
-    await loadPokedexIndex();
+    offset = 0;
+    await loadPokedexIndex(offset, limit);
+    loadAllPokemons();
 }
 
-async function loadPokedexIndex() {
-    let url = 'https://pokeapi.co/api/v2/pokemon?limit=100&offset=0';
+async function loadAllPokemons() {
+    let url = `https://pokeapi.co/api/v2/pokemon?limit=1010&offset=0`;
     let resopnse = await fetch(url);
     json = await resopnse.json();
     pokemons = json['results'];
+}
+
+async function loadPokedexIndex(offset, limit) {
+    let url = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
+    let resopnse = await fetch(url);
+    json = await resopnse.json();
+    currentPokedex = json['results'];
     document.getElementById('body').innerHTML = generatePokedexIndexHTML();
-    renderPokedexHome(pokemons);
-    renderPokedexIndexImages(pokemons);
+    renderPokedexHome(currentPokedex);
+    renderPokedexIndexImages(currentPokedex);
 }
 
 function renderPokedexHome(array) {
@@ -45,18 +57,39 @@ async function getPokedexImage(pokemonName) {
     return pokemon;
 }
 
+function loadPreviousPokedex() {
+    offset -= limit;
+    if (offset < 0) {
+        offset = 0;
+    }
+    loadPokedexIndex(offset, limit);
+}
+
+function loadNextPokedex() {
+    offset += limit;
+    if (offset > pokemons.length - limit) { 
+        offset = pokemons.length - limit;
+    }
+    loadPokedexIndex(offset, limit);
+}
+
+
 function search() {
     let search = document.getElementById('search').value;
-    let iArray = [];
-    const result = pokemons.filter((pokemon) => pokemon['name'].toLowerCase().includes(search.toLowerCase()));   
-    if(!result) {} else {
-        for (let i = 0; i < result.length; i++) {
-            iArray[i] = pokemons.indexOf(result[i]);
-        }  
+    if (search.length == 0) {
+        loadPokedexIndex(offset, limit);
+    } else {
+        let iArray = [];
+        const result = pokemons.filter((pokemon) => pokemon['name'].toLowerCase().includes(search.toLowerCase()));
+        if (!result) { } else {
+            for (let i = 0; i < result.length; i++) {
+                iArray[i] = pokemons.indexOf(result[i]);
+            }
+        }
+        renderPokedexHome(result, iArray);
+        renderPokedexIndexImages(result, iArray);
     }
-    renderPokedexHome(result, iArray);
-    renderPokedexIndexImages(result, iArray);                                 
-} 
+}
 
 
 function generatePokedexIndexHTML() {
@@ -68,6 +101,10 @@ function generatePokedexIndexHTML() {
             <div><input onkeyup="search()" type="search" id="search" name="q" placeholder="Suche"></div>   
         </header>
         <div id="pokedex_body" class="pokedex-body"></div>
+        <footer>
+            <div onclick="loadPreviousPokedex()" class="change-page">zurück</div>
+            <div onclick="loadNextPokedex()" class="change-page">vorwärts</div>
+        </footer>
     `;
 }
 
@@ -90,7 +127,6 @@ async function loadPokemon(pokemonName) {
     let url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
     let resopnse = await fetch(url);
     currentPokemon = await resopnse.json();
-    console.log(await getBackgroundColor());
     let backgroundColor = await getBackgroundColor();
     document.getElementById('body').innerHTML = generatePokemonBodyHTML(backgroundColor);
     renderPokemonCard();
@@ -115,7 +151,7 @@ function generatePokemonBodyHTML(backgroundColor) {
     return /*html */ `
         <div id="pokedex" style="background-color: ${backgroundColor}"> 
             <div class="nav-bar">
-                <button onclick="init()">back</button>
+                <button onclick="loadPokedexIndex(offset, limit)">Home</button>
             </div>
             <div class="pokedex-text div-width">
                 <h1 id="pokemon_name"></h1>
