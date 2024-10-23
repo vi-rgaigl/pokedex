@@ -2,14 +2,6 @@ function toggleDiv(id) {
     document.getElementById(id).classList.toggle('d-none');
 }
 
-async function getBackgroundColor() {
-    let url = `https://pokeapi.co/api/v2/pokemon-species/${currentPokemon['species']['name']}`;
-    let response = await fetch(url);
-    let species = await response.json();
-    return species['color']['name'];
-}
-
-
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }

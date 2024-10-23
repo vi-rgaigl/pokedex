@@ -1,0 +1,70 @@
+.div-width {
+    width: 40vw;
+}
+
+.div-margin {
+    margin: 24px 18px;
+}
+
+.d-none {
+    display: none;
+}
+
+input {
+    all: unset;
+    height: 56px;
+    width: 30vw;
+    border: 1px solid silver;
+    border-radius: 8px;
+    font-family: unset;
+    text-align: center;
+}
+
+input:hover {
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+input:focus {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    margin: 0;
+    margin-left: 24px;
+}
+
+button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: silver;
+    border: none;
+    font-size: 12px;
+}
+
+img {
+    height: 43vh;
+    margin-top: -39vh;
+}
+
+table {
+    width: 100%;
+}
+
+tr {
+    height: 26px;
+}
+
+.table-cell {
+    display: flex;
+    align-items: center;
+}
+
+table tr td:first-child {
+    width: 28%;
+}
+table tr td:last-child {
+    width: 72%;
+}
+

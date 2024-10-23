@@ -16,6 +16,13 @@ function renderPokemonCard() {
     openInfoSection('1', 'about');
 }
 
+async function getBackgroundColor() {
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${currentPokemon['species']['name']}`;
+    let response = await fetch(url);
+    let species = await response.json();
+    return species['color']['name'];
+}
+
 function openInfoSection(tab, section) {
     let infoDivs = document.getElementsByClassName('info');
     for (let i = 0; i < infoDivs.length; i++) {
@@ -48,8 +55,6 @@ function setBorderMarker(i, tab) {
         document.getElementById(`tab_${i}`).classList.remove('border-marker');
     }
 }
-
-
 
 function getAbilities() {
     let abilities = currentPokemon['abilities'];

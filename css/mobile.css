@@ -1,0 +1,115 @@
+@media(max-width: 800px) {
+    .div-width {
+        width: 80vw;
+    }
+    .header img {
+        height: 60px;
+    }
+    input {
+        width: 45vw;
+    }
+    .w3-row {
+        display: flex;
+        justify-content: space-between;
+    }
+    .w3-quarter {
+        width: 100% !important;
+    }
+    .div-margin {
+        margin: 16px;
+    }
+    .pokedex-item {
+        height: 200px;
+        width: 200px;
+    }
+    .pokedex-image {
+        height: 140px;
+        width: 140px;
+    }
+}
+
+@media(max-width: 600px) {
+    .body {
+        align-items: unset;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    header {
+        flex-direction: column;
+    }
+    input {
+        width: 70vw;
+        height: 46px;
+        margin-bottom: 8px;
+    }
+    .div-margin {
+        margin: 16px 4px;
+    }
+    .pokedex-body {
+        padding: 0;
+    }
+}
+
+@media(max-width: 500px) {
+    .nav-bar {
+        margin-bottom: 12px;
+    }
+    h1 {
+        font-size: 28px;
+    }
+    .pokedex-text {
+        width: 100vw;
+        justify-content: space-evenly;
+    }
+    img {
+        height: 40vh;
+        margin-top: -36vh;
+    }
+    .info-container {
+        border-top-left-radius: 32px;
+        border-top-right-radius: 32px;
+    }
+    .div-width {
+        width: 90%;
+    }
+    .w3-padding {
+        padding: 4px 12px!important;
+    }
+    .div-margin {
+        margin: 16px 0;
+    }
+    .pokedex-item {
+        height: 150px;
+        width: 150px;
+        gap: 8px;
+        font-size: 18px;
+    }
+    .pokedex-image {
+        height: 100px;
+        width: 100px;
+    }
+}
+
+@media(max-width: 380px) {
+    img {
+        height: 36vh;
+        margin-top: -33vh;
+    }
+    .info-container {
+        border-top-left-radius: 24px;
+        border-top-right-radius: 24px;
+    }
+    .w3-padding {
+        padding: 2px 6px!important;
+    }
+    .pokedex-item {
+        height: 150px;
+        width: 120px;
+        gap: 8px;
+        font-size: 18px;
+    }
+    .pokedex-image {
+        height: 100px;
+        width: 100px;
+    }
+}
