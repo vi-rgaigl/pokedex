@@ -1,50 +1,19 @@
-function generatePokemonInfoBodyHTML() {
-    return /*html */ `
-        <div class="w3-row">
-            <a href="#" onclick="openInfoSection('1', 'about');">
-                <div id="tab_1" class="w3-quarter tablink w3-bottombar w3-hover-light-grey w3-padding">About</div>
-            </a>
-            <a href="javascript:void(0)" onclick="openInfoSection('2', 'stats');">
-                <div id="tab_2" class="w3-quarter tablink w3-bottombar w3-hover-light-grey w3-padding">States</div>
-            </a>
-            <a href="javascript:void(0)" onclick="openInfoSection('3', 'moves');">
-                <div id="tab_3" class="w3-quarter tablink w3-bottombar w3-hover-light-grey w3-padding">Moves</div>
-            </a>
-        </div>
-              
-        <div id="about" class="w3-container info" style="display:none">
-            <div id="about_container" class="content-container div-margin"></div>
-        </div>
-        <div id="stats" class="w3-container info" style="display:none">
-            <div id="stats_container" class="content-container div-margin"></div>
-        </div>
-        <div id="moves" class="w3-container info" style="display:none">
-            <div id="moves_container" class="content-container div-margin"></div>
-        </div>
-    `;
+// Pokemon Cards
+async function loadPokemon(pokemonVariable) {
+    let url = `https://pokeapi.co/api/v2/pokemon/${pokemonVariable}`;
+    let resopnse = await fetch(url);
+    currentPokemon = await resopnse.json();
+    let backgroundColor = await getBackgroundColor();
+    document.getElementById('body').innerHTML = generatePokemonBodyHTML(backgroundColor, currentPokemon['id']);
+    renderPokemonCard();
 }
 
-function generateAboutHTML() {
-    return /*html */ `
-        <table>
-            <tr>
-                <td>Types</td>
-                <td>${getTypes()}</td>
-            </tr>
-            <tr>
-                <td>Height</td>
-                <td>${formatHeight(currentPokemon['height']).toFixed(2)} cm</td>
-            </tr>
-            <tr>
-                <td>Weight</td>
-                <td>${formatWeight(currentPokemon['weight'])} kg</td>
-            </tr>
-            <tr>
-                <td>Abilities</td>
-                <td>${getAbilities()}</td>
-            </tr>
-        </table>
-    `;
+function renderPokemonCard() {
+    document.getElementById('pokemon_name').innerHTML = capitalizeFirstLetter(currentPokemon['name']);
+    document.getElementById('pokemon_image').src = currentPokemon['sprites']['other']['home']['front_default'];
+    document.getElementById('pokemon_id').innerHTML = formatId(currentPokemon['id']);
+    document.getElementById('info_content').innerHTML = generatePokemonInfoBodyHTML();
+    openInfoSection('1', 'about');
 }
 
 function openInfoSection(tab, section) {
@@ -80,13 +49,7 @@ function setBorderMarker(i, tab) {
     }
 }
 
-function formatHeight(height) {
-    return height / 10;
-}
 
-function formatWeight(weight) {
-    return weight / 10;
-}
 
 function getAbilities() {
     let abilities = currentPokemon['abilities'];
@@ -108,14 +71,6 @@ function getTypes() {
     return result + '</div>';
 }
 
-function generateStatstHTML() {
-    return /*html */ `
-        <table>
-            ${getStats()}
-        </table>
-    `;
-}
-
 function getStats() {
     let stats = currentPokemon['stats'];
     let result = '';
@@ -126,26 +81,12 @@ function getStats() {
     return result;
 }
 
-function generateStatsBar(number) {
-    return /*html */ `
-        <div class="table-cell">
-            ${number}<div class="statsbar" style="width: ${number}%; background-color: ${setStatsBarColor(number)};"></div>
-        </div>
-    `;
-}
-
 function setStatsBarColor(number) {
     if (number < 50) {
         return 'red';
     } else {
         return '#70c927';
     }
-}
-
-function generateMovesHTML() {
-    return /*html */ `
-        ${getMoves()}
-    `;
 }
 
 function getMoves() {
@@ -165,5 +106,26 @@ function formatId(id) {
         return '#0' + id;
     } else {
         return '#' + id;
+    }
+}
+
+
+function nextPokemon() {
+    let currentId = currentPokemon['id'];
+    console.log(currentId);
+    if (currentId >= pokemons.length) {
+        toggleDiv('next_pokemon');
+    } else {
+        loadPokemon(currentId + 1);
+    }  
+}
+
+function previousPokemon() {
+    let currentId = currentPokemon['id'];
+    console.log(currentId);
+    if(currentId <= 1) {
+        toggleDiv('previous_pokemon');
+    } else {
+        loadPokemon(currentId - 1);
     }
 }
